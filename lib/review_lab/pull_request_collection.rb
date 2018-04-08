@@ -1,3 +1,6 @@
+require 'octokit.rb'
+require 'active_model'
+
 class PullRequestCollection
   include ActiveModel::Model
   attr_accessor :username, :password, :repository, :organization, :labels

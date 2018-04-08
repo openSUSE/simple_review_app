@@ -11,8 +11,8 @@ class ReviewApp
   def deploy
     return name if File.exists?(directory)
     clone_branch
-    copy_files
     execute_before_script
+    copy_files
     set_host
     start_app
     name
@@ -41,7 +41,11 @@ class ReviewApp
   end
   
   def copy_files
-    FileUtils.cp_r(Dir['files/*'], project_directory)  
+    FileUtils.cp_r(Dir[files_directory], project_directory)  
+  end
+  
+  def files_directory
+    File.join(options[:working_directory], '..', 'files/*')
   end
   
   def execute_before_script
@@ -58,6 +62,7 @@ class ReviewApp
   
   def set_host
     compose_file = YAML.load_file(docker_compose_file_path)
+    puts docker_compose_file_path
     compose_file['services']['frontend']['labels']['traefik.frontend.rule'] = "Host:#{name}.#{host}"
     File.open(docker_compose_file_path, 'w') do |f|
        f.write(YAML.dump(compose_file))
