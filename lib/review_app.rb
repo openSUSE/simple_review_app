@@ -79,8 +79,7 @@ class ReviewApp
   end
   
   def project_name
-    # TODO: this should be in the configuration
-    'open-build-service'
+    pull_request.base.repo.name
   end
   
   def project_directory

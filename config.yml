@@ -1,4 +1,5 @@
 github_username: ''
 github_password: ''
-github_repository: 'ChrisBr/open-build-service'
+github_repository: 'open-build-service'
+github_organization: 'Chrisbr'
 github_labels: 'review-lab'

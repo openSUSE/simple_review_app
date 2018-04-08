@@ -23,11 +23,11 @@ end
 running_apps = []
 collection = PullRequestCollection.new(
   username: config['github_username'], 
-  password: config['github_password'], 
+  password: config['github_password'],
+  organization: config['github_organization'],
   repository: config['github_repository'], 
   labels: config['github_labels'])
 collection.all.each do |pull_request|
-  
   options = { working_directory: BASEDIR }
   running_apps << ReviewApp.new(pull_request: pull_request, options: options).deploy
 end
