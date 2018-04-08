@@ -5,7 +5,7 @@ require 'active_model'
 
 class ReviewApp
   include ActiveModel::Model
-  attr_accessor :pull_request_number, :options
+  attr_accessor :pull_request, :options
   attr_writer :name
   
   def deploy
@@ -54,20 +54,12 @@ class ReviewApp
      end
   end
   
-  def repository
-    options[:repository]
-  end
-  
   def clone_command
     "git clone -b #{branch} --single-branch #{fork_url}"
   end
   
   def name
     @name ||= Zaru.sanitize!("#{user_login}-#{branch}")
-  end
-  
-  def pull_request
-    @pull_request ||= Octokit.pull_request(repository, pull_request_number)
   end
   
   def fork_url

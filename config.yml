@@ -1,4 +1,4 @@
 github_username: ''
 github_password: ''
-github_repository: 'openSUSE/open-build-service'
-github_label: 'review-lab'
+github_repository: 'ChrisBr/open-build-service'
+github_labels: 'review-lab'
