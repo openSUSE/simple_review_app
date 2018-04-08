@@ -45,12 +45,15 @@ class ReviewApp
   end
   
   def set_host
-    path = "#{project_directory}/docker-compose.yml"
-    compose_file = YAML.load_file(path)
+    compose_file = YAML.load_file(docker_compose_file_path)
     compose_file['services']['frontend']['labels']['traefik.frontend.rule'] = "Host:#{name}.#{host}"
-    File.open(path, 'w') do |f|
+    File.open(docker_compose_file_path, 'w') do |f|
        f.write(YAML.dump(compose_file))
      end
+  end
+  
+  def docker_compose_file_path
+    "#{project_directory}/docker-compose.yml"
   end
   
   def clone_command
