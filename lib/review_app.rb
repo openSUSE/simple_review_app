@@ -45,12 +45,15 @@ class ReviewApp
   end
   
   def execute_before_script
-    return unless options[:before_script].present?
     do_in_project_directory do
-      options[:before_script].each do |script|
+      before_scripts.each do |script|
         %x[#{script}]
       end
     end
+  end
+  
+  def before_scripts
+    options[:before_script] || []
   end
   
   def set_host
