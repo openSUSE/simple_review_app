@@ -59,7 +59,7 @@ class ReviewApp
   end
   
   def name
-    @name ||= Zaru.sanitize!("#{user_login}-#{branch}")
+    @name ||= Zaru.sanitize!("#{user_login}-#{branch}").downcase
   end
   
   def fork_url
