@@ -12,6 +12,7 @@ class ReviewApp
     return name if File.exists?(directory)
     clone_branch
     copy_files
+    set_host
     start_app
     name
   end
@@ -41,7 +42,6 @@ class ReviewApp
   
   def copy_files
     FileUtils.cp_r(Dir['files/*'], project_directory)  
-    set_host
   end
   
   def set_host
