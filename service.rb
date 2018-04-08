@@ -28,7 +28,7 @@ collection = PullRequestCollection.new(
   repository: config['github_repository'], 
   labels: config['github_labels'])
 collection.all.each do |pull_request|
-  options = { working_directory: BASEDIR }
+  options = { working_directory: BASEDIR, before_script: config['before_script'] }
   running_apps << ReviewApp.new(pull_request: pull_request, host: config['host'], options: options).deploy
 end
 

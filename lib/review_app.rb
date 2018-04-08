@@ -12,6 +12,7 @@ class ReviewApp
     return name if File.exists?(directory)
     clone_branch
     copy_files
+    execute_before_script
     set_host
     start_app
     name
@@ -28,7 +29,6 @@ class ReviewApp
   
   def start_app
     Dir.chdir(project_directory) {
-      %x[git submodule init]
       %x[docker-compose -p #{name} up -d]
     }
   end
@@ -42,6 +42,15 @@ class ReviewApp
   
   def copy_files
     FileUtils.cp_r(Dir['files/*'], project_directory)  
+  end
+  
+  def execute_before_script
+    return unless options[:before_script].present?
+    Dir.chdir(project_directory) {
+      options[:before_script].each do |script|
+        %x[#{script}]
+      end
+    }
   end
   
   def set_host

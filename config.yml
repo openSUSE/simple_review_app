@@ -4,3 +4,6 @@ github_repository: 'open-build-service'
 github_organization: 'Chrisbr'
 github_labels: 'review-lab'
 host: 'localhost'
+before_script:
+  - git submodule init
+  - git submodule update
