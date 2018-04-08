@@ -19,18 +19,18 @@ class ReviewApp
   end
   
   def destroy
-    Dir.chdir(project_directory) {
-     %x[docker-compose -p #{name} stop]
-    }
+    do_in_project_directory do
+      %x[docker-compose -p #{name} stop]
+    end
     FileUtils.rm_rf(directory)
   end
   
   private
   
   def start_app
-    Dir.chdir(project_directory) {
+    do_in_project_directory do
       %x[docker-compose -p #{name} up -d]
-    }
+    end
   end
   
   def clone_branch
@@ -46,11 +46,11 @@ class ReviewApp
   
   def execute_before_script
     return unless options[:before_script].present?
-    Dir.chdir(project_directory) {
+    do_in_project_directory do
       options[:before_script].each do |script|
         %x[#{script}]
       end
-    }
+    end
   end
   
   def set_host
@@ -95,5 +95,11 @@ class ReviewApp
   
   def project_directory
     File.join(directory, project_name)
+  end
+  
+  def do_in_project_directory
+    Dir.chdir(project_directory) {
+      yield
+    }
   end
 end
