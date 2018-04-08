@@ -28,6 +28,7 @@ services:
     command: "/obs/contrib/entrypoint.sh"
     volumes:
     - ".:/obs"
+    environment:
     labels:
       traefik.frontend.rule: to-be-replaced
       traefik.docker.network: traefik_default

@@ -13,7 +13,7 @@ class ReviewApp
     clone_branch
     execute_before_script
     copy_files
-    set_host
+    update_docker_compose_file
     start_app
     name
   end
@@ -60,13 +60,28 @@ class ReviewApp
     options[:before_script] || []
   end
   
-  def set_host
+  def update_docker_compose_file
     compose_file = YAML.load_file(docker_compose_file_path)
-    puts docker_compose_file_path
-    compose_file['services']['frontend']['labels']['traefik.frontend.rule'] = "Host:#{name}.#{host}"
+    compose_file = add_traefik_frontend_rule(compose_file)
+    compose_file = add_relative_url_root(compose_file)
+    write_docker_compose_file(compose_file)
+  end
+  
+  def write_docker_compose_file(compose_file)
     File.open(docker_compose_file_path, 'w') do |f|
        f.write(YAML.dump(compose_file))
      end
+  end
+  
+  def add_relative_url_root(compose_file)
+    compose_file['services']['frontend']['environment'] ||= []
+    compose_file['services']['frontend']['environment'] << "RAILS_RELATIVE_URL_ROOT=/#{name}"
+    compose_file
+  end
+  
+  def add_traefik_frontend_rule(compose_file)
+    compose_file['services']['frontend']['labels']['traefik.frontend.rule'] = "Host:#{host}; PathPrefix:/#{name}"
+    compose_file
   end
   
   def docker_compose_file_path
