@@ -29,7 +29,7 @@ collection = PullRequestCollection.new(
   labels: config['github_labels'])
 collection.all.each do |pull_request|
   options = { working_directory: BASEDIR }
-  running_apps << ReviewApp.new(pull_request: pull_request, options: options).deploy
+  running_apps << ReviewApp.new(pull_request: pull_request, host: config['host'], options: options).deploy
 end
 
 orphaned_apps(running_apps).each do |dir|

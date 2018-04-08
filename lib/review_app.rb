@@ -5,7 +5,7 @@ require 'active_model'
 
 class ReviewApp
   include ActiveModel::Model
-  attr_accessor :pull_request, :options
+  attr_accessor :pull_request, :host, :options
   attr_writer :name
   
   def deploy
@@ -47,8 +47,7 @@ class ReviewApp
   def set_host
     path = "#{project_directory}/docker-compose.yml"
     compose_file = YAML.load_file(path)
-    # TODO: host and service name should be in the configuration
-    compose_file['services']['frontend']['labels']['traefik.frontend.rule'] = "Host:#{name}.bs-team.de"
+    compose_file['services']['frontend']['labels']['traefik.frontend.rule'] = "Host:#{name}.#{host}"
     File.open(path, 'w') do |f|
        f.write(YAML.dump(compose_file))
      end
