@@ -1,0 +1,9 @@
+github_username: ''
+github_password: ''
+github_repository: 'open-build-service'
+github_organization: 'opensuse'
+github_labels: 'review-app'
+host: 'localhost'
+before_script:
+  - git submodule init
+  - git submodule update
