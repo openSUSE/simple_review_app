@@ -5,7 +5,7 @@ require 'active_model'
 
 class ReviewApp
   include ActiveModel::Model
-  attr_accessor :pull_request, :host, :options
+  attr_accessor :pull_request, :host, :project_name, :options
   attr_writer :name
   
   def deploy
@@ -110,10 +110,6 @@ class ReviewApp
   
   def directory
     File.join(options[:working_directory], name)
-  end
-  
-  def project_name
-    pull_request.base.repo.name
   end
   
   def project_directory

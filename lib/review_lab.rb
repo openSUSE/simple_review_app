@@ -21,7 +21,12 @@ class ReviewLab
   end
   
   def deploy_review_app(pull_request)
-    self.running_apps << ReviewApp.new(pull_request: pull_request, host: config['host'], options: review_app_options).deploy
+    self.running_apps << ReviewApp.new(
+      pull_request: pull_request, 
+      project_name: config['github_repository'],
+      host: config['host'], 
+      options: review_app_options
+    ).deploy
   end
   
   def review_app_options
@@ -31,7 +36,11 @@ class ReviewLab
   def destroy_review_apps
     orphaned_apps.each do |dir|
       options = { working_directory: working_directory }
-      ReviewApp.new(name: dir, options: options).destroy
+      ReviewApp.new(
+        name: dir,
+        project_name: config['github_repository'],
+        options: options
+      ).destroy
     end
   end
   
