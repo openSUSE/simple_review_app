@@ -1,8 +1,7 @@
-require 'octokit.rb'
 require 'zaru'
-require 'yaml'
 require 'active_model'
 require './lib/review_lab/logger'
+require './lib/review_lab/docker_compose_file'
 
 class ReviewLab
   class ReviewApp
@@ -19,7 +18,7 @@ class ReviewLab
       clone_branch
       execute_before_script
       copy_files
-      update_docker_compose_file
+      docker_compose_file.set_review_app_information
       start_app
       name
     end
@@ -73,30 +72,8 @@ class ReviewLab
       options[:before_script] || []
     end
     
-    def update_docker_compose_file
-      compose_file = YAML.load_file(docker_compose_file_path)
-      compose_file = add_traefik_frontend_rule(compose_file)
-      compose_file = add_relative_url_root(compose_file)
-      write_docker_compose_file(compose_file)
-    end
-    
-    def write_docker_compose_file(compose_file)
-      File.open(docker_compose_file_path, 'w') do |f|
-         f.write(YAML.dump(compose_file))
-       end
-    end
-    
-    def add_relative_url_root(compose_file)
-      logger.info "Set 'RAILS_RELATIVE_URL_ROOT=/#{name}' in docker-compose.yml file."
-      compose_file['services']['frontend']['environment'] ||= []
-      compose_file['services']['frontend']['environment'] << "RAILS_RELATIVE_URL_ROOT=/#{name}"
-      compose_file
-    end
-    
-    def add_traefik_frontend_rule(compose_file)
-      logger.info "Set 'Host:#{host}; PathPrefix:/#{name}' in docker-compose.yml file."
-      compose_file['services']['frontend']['labels']['traefik.frontend.rule'] = "Host:#{host}; PathPrefix:/#{name}"
-      compose_file
+    def docker_compose_file
+      @docker_compose_file ||= DockerComposeFile.new(path: docker_compose_file_path)
     end
     
     def docker_compose_file_path
