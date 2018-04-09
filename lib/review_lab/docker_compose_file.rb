@@ -8,11 +8,11 @@ class ReviewLab
   class DockerComposeFile
     include ActiveModel::Model
     include Logger
-    attr_accessor :path, :service_name
-    attr_writer :content
+    attr_accessor :path, :service_name, :app_name, :host
+    attr_writer :content, :logger
 
     def content
-      @content ||= YAML.load_file(docker_compose_file_path)
+      @content ||= YAML.load_file(path)
     end
 
     def save
@@ -22,8 +22,10 @@ class ReviewLab
     end
 
     def set_review_app_information
-      add_traefik_frontend_rule(compose_file)
-      add_relative_url_root(compose_file)
+      logger.info 'Set review app information.'
+      logger.info path
+      add_traefik_frontend_rule
+      add_relative_url_root
       save
     end
 
@@ -41,7 +43,7 @@ class ReviewLab
     end
 
     def root_url
-      "RAILS_RELATIVE_URL_ROOT=/#{name}"
+      "RAILS_RELATIVE_URL_ROOT=/#{app_name}"
     end
 
     def add_traefik_frontend_rule
@@ -51,7 +53,7 @@ class ReviewLab
     end
 
     def traefik_frontend_rule
-      "Host:#{host}; PathPrefix:/#{name}"
+      "Host:#{host}; PathPrefix:/#{app_name}"
     end
   end
 end
