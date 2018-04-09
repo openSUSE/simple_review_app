@@ -1,9 +1,15 @@
 require 'yaml'
 require './lib/review_lab/review_app'
 require './lib/review_lab/pull_request_collection'
+require 'logger'
 
 class ReviewLab
+  def self.run
+    main_instance.run
+  end
+  
   def run
+    logger.info("Starting review lab.")
     self.running_apps = []
     create_working_directory
     deploy_review_apps
@@ -13,7 +19,17 @@ class ReviewLab
   attr_accessor :running_apps
 
   private
-
+  
+  def self.main_instance
+    @main_instance ||= ReviewLab.new
+  end
+  
+  def logger
+    @logger ||= ::Logger.new(File.join(log_directory, 'review_lab.log')).tap do |log|
+      log.level = ::Logger::INFO
+    end
+  end
+  
   def deploy_review_apps
     pull_requests.each do |pull_request|
       deploy_review_app(pull_request)
@@ -25,7 +41,8 @@ class ReviewLab
       pull_request: pull_request, 
       project_name: config['github_repository'],
       host: config['host'], 
-      options: review_app_options
+      options: review_app_options,
+      logger: logger
     ).deploy
   end
   
@@ -39,7 +56,8 @@ class ReviewLab
       ReviewApp.new(
         name: dir,
         project_name: config['github_repository'],
-        options: options
+        options: options,
+        logger: logger
       ).destroy
     end
   end
@@ -48,16 +66,25 @@ class ReviewLab
     @config ||= YAML.load_file(config_path)
   end
   
+  def review_lab_directory
+    File.join(File.dirname(__FILE__), '..').freeze
+  end
+  
   def config_path
-    File.join(File.dirname(__FILE__), '..', 'config.yml').freeze
+    File.join(review_lab_directory, 'config.yml').freeze
   end
   
   def working_directory
-    File.join(File.dirname(__FILE__), '..', 'review_apps').freeze
+    File.join(review_lab_directory, 'review_apps').freeze
+  end
+  
+  def log_directory
+    File.join(review_lab_directory, 'logs').freeze
   end
   
   def create_working_directory
     return if File.exists?(working_directory)
+    logger.info("Working directory #{working_directory} does not exist, creating it.")
     Dir.mkdir(working_directory)
   end
 
@@ -77,7 +104,8 @@ class ReviewLab
       password: config['github_password'],
       organization: config['github_organization'],
       repository: config['github_repository'], 
-      labels: config['github_labels']
+      labels: config['github_labels'],
+      logger: logger
     ).all
   end
 end
