@@ -75,7 +75,13 @@ class ReviewLab
     end
 
     def docker_compose_file
-      @docker_compose_file ||= DockerComposeFile.new(path: docker_compose_file_path, service_name: 'frontend')
+      @docker_compose_file ||= DockerComposeFile.new(
+        path: docker_compose_file_path,
+        service_name: 'frontend',
+        app_name: name,
+        host: host,
+        logger: logger
+      )
     end
 
     def docker_compose_file_path
