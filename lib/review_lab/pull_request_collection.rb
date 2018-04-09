@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'octokit.rb'
 require 'active_model'
 require './lib/review_lab/logger'
@@ -18,18 +20,18 @@ class ReviewLab
     private
 
     def pull_requests
-      # We have to do roundtrips here as the GitHup API does not support 
+      # We have to do roundtrips here as the GitHup API does not support
       # fetching pull requests by their label
       pull_request_numbers.map do |pull_request_number|
         logger.info "Found pull request ##{pull_request_number.number}."
         Octokit.pull_request(full_repository_name, pull_request_number.number)
       end
     end
-    
+
     def pull_request_numbers
-      Octokit.list_issues(full_repository_name, labels: labels).find_all { |i| i.pull_request }
+      Octokit.list_issues(full_repository_name, labels: labels).find_all(&:pull_request)
     end
-    
+
     def authenticate
       return unless credentials?
       logger.info "Try to authenticate to GitHub with username #{username}."
@@ -39,11 +41,11 @@ class ReviewLab
       end
       logger.info "Successfully authenticated to GitHub with username #{username}."
     end
-    
+
     def full_repository_name
       "#{organization}/#{repository}"
     end
-    
+
     def credentials?
       username.present? && password.present?
     end

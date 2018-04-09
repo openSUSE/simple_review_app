@@ -1,0 +1,12 @@
+AllCops:
+   Exclude:
+     - 'node_modules/**/*'
+     - 'vendor/**/*'
+     - '.git/**/*'
+     - 'review_apps/**/*'
+
+Metrics/LineLength:
+  Max: 150
+
+Style/Documentation:
+  Enabled: false  

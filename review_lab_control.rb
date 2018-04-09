@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/review_lab.rb'
 require 'daemons'
 
