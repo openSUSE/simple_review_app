@@ -25,7 +25,10 @@ class ReviewLab
       # fetching pull requests by their label
       pull_request_numbers.map do |pull_request_number|
         logger.info "Found pull request ##{pull_request_number.number}."
-        PullRequest.new(content: Octokit.pull_request(full_repository_name, pull_request_number.number))
+        PullRequest.new(
+          content: Octokit.pull_request(full_repository_name, pull_request_number.number),
+          logger: logger
+        )
       end
     end
 
