@@ -7,7 +7,8 @@ class ReviewLab
   class PullRequest
     include ActiveModel::Model
     include Logger
-    attr_accessor :content, :logger
+    attr_accessor :content
+    attr_writer :logger
 
     def clone(directory)
       logger.info "Execute '#{clone_command}' in '#{directory}'."
@@ -15,6 +16,7 @@ class ReviewLab
       Dir.chdir(directory) do
         `#{clone_command}`
       end
+      logger.info "Successfully cloned into '#{directory}'."
     end
 
     def user_login
