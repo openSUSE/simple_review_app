@@ -13,11 +13,8 @@ class ReviewLab
     attr_writer :name, :logger
 
     def deploy
-      if File.exist?(directory)
-        logger.info "Review app for #{name} alreay exists, continue."
-        return name
-      end
-      clone_branch
+      return name if exists?
+      pull_request.clone(directory)
       execute_before_script
       copy_files
       docker_compose_file.set_review_app_information
@@ -36,20 +33,18 @@ class ReviewLab
 
     private
 
+    def exists?
+      return true if File.exist?(directory)
+      logger.info "Review app for #{name} alreay exists, continue."
+      false
+    end
+
     def start_app
       logger.info "Starting review app '#{name}'."
       do_in_project_directory do
         `docker-compose -p #{name} up -d`
       end
       logger.info "Successfully started review app '#{name}'."
-    end
-
-    def clone_branch
-      logger.info "Execute '#{clone_command}' in '#{directory}'."
-      Dir.mkdir(directory)
-      Dir.chdir(directory) do
-        `#{clone_command}`
-      end
     end
 
     def copy_files
@@ -88,24 +83,8 @@ class ReviewLab
       "#{project_directory}/docker-compose.yml"
     end
 
-    def clone_command
-      "git clone -b #{branch} --single-branch #{fork_url}"
-    end
-
     def name
-      @name ||= Zaru.sanitize!("#{user_login}-#{branch}").downcase
-    end
-
-    def fork_url
-      pull_request.head.repo.clone_url
-    end
-
-    def user_login
-      pull_request.head.user.login
-    end
-
-    def branch
-      pull_request.head.ref
+      @name ||= Zaru.sanitize!("#{pull_request.user_login}-#{pull_request.branch}").downcase
     end
 
     def directory

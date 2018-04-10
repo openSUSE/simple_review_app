@@ -92,7 +92,10 @@ class ReviewLab
   end
 
   def log_directory
-    File.join(review_lab_directory, 'logs').freeze
+    log_directory = File.join(review_lab_directory, 'logs').freeze
+    return log_directory if File.exist?(log_directory)
+    Dir.mkdir(log_directory)
+    log_directory
   end
 
   def create_working_directory
