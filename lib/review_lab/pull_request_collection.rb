@@ -3,6 +3,7 @@
 require 'octokit.rb'
 require 'active_model'
 require './lib/review_lab/logger'
+require './lib/review_lab/pull_request'
 
 class ReviewLab
   class PullRequestCollection
@@ -24,7 +25,7 @@ class ReviewLab
       # fetching pull requests by their label
       pull_request_numbers.map do |pull_request_number|
         logger.info "Found pull request ##{pull_request_number.number}."
-        Octokit.pull_request(full_repository_name, pull_request_number.number)
+        PullRequest.new(content: Octokit.pull_request(full_repository_name, pull_request_number.number))
       end
     end
 
