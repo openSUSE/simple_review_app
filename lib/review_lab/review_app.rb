@@ -13,7 +13,10 @@ class ReviewLab
     attr_writer :name, :logger
 
     def deploy
-      return name if exists?
+      if exists?
+        pull_request.update(directory)
+        return name
+      end
       pull_request.clone(directory)
       execute_before_script
       copy_files
@@ -34,9 +37,7 @@ class ReviewLab
     private
 
     def exists?
-      return true if File.exist?(directory)
-      logger.info "Review app for #{name} alreay exists, continue."
-      false
+      File.exist?(directory)
     end
 
     def start_app
