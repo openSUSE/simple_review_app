@@ -77,7 +77,7 @@ class ReviewLab
 
   def config
     @config ||= YAML.load_file(config_path)
-  rescue => e
+  rescue StandardError => e
     msg = "Error loading config file: #{e.message}"
     logger.fatal(msg)
     abort(msg)
