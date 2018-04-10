@@ -111,7 +111,7 @@ class ReviewLab
 
   def all_apps
     Dir.chdir(working_directory) do
-      Dir.glob('*').select { |f| File.directory?(f) }
+      Dir.glob('*').select { |f| File.directory?(f) && !f.include?('logs') }
     end
   end
 
