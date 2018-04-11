@@ -2,11 +2,13 @@
 
 require 'active_model'
 require './lib/review_lab/logger'
+require './lib/review_lab/utils'
 
 class ReviewLab
   class PullRequest
     include ActiveModel::Model
     include Logger
+    include Utils
     attr_accessor :content
     attr_writer :logger
 
@@ -18,12 +20,10 @@ class ReviewLab
     end
 
     def clone(directory)
-      logger.info "Execute '#{clone_command}' in '#{directory}'."
       Dir.mkdir(directory)
       Dir.chdir(directory) do
-        `#{clone_command}`
+        capture2e_with_logs(clone_command)
       end
-      logger.info "Successfully cloned into '#{directory}'."
     end
 
     def user_login
@@ -38,8 +38,8 @@ class ReviewLab
 
     def fetch_and_reset(directory)
       Dir.chdir(File.join(directory, project_name)) do
-        `git fetch --all`
-        `git reset origin/#{branch} --hard`
+        capture2e_with_logs('git fetch --all')
+        capture2e_with_logs("git reset origin/#{branch} --hard")
       end
       logger.info("Successfully updated branch to #{head_sha}")
     end
@@ -56,7 +56,7 @@ class ReviewLab
 
     def cloned_sha(directory)
       Dir.chdir(File.join(directory, project_name)) do
-        `git rev-parse HEAD`.chomp
+        capture2e_with_logs('git rev-parse HEAD')
       end
     end
 
