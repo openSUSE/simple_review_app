@@ -120,7 +120,7 @@ class ReviewLab
   end
 
   def pull_requests
-    PullRequestCollection.new(
+    result = PullRequestCollection.new(
       username: config['github_username'],
       password: config['github_password'],
       organization: config['github_organization'],
@@ -128,5 +128,7 @@ class ReviewLab
       labels: config['github_labels'],
       logger: logger
     ).all
+    logger.info("Found #{result.count} open pull requests.")
+    result
   end
 end
