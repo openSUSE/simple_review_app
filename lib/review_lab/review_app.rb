@@ -2,13 +2,16 @@
 
 require 'zaru'
 require 'active_model'
+require 'open3'
 require './lib/review_lab/logger'
 require './lib/review_lab/docker_compose_file'
+require './lib/review_lab/utils'
 
 class ReviewLab
   class ReviewApp
     include ActiveModel::Model
     include Logger
+    include Utils
     attr_accessor :pull_request, :host, :project_name, :options
     attr_writer :name, :logger
 
@@ -28,10 +31,10 @@ class ReviewLab
     def destroy
       logger.info "Destroy review app '#{name}'."
       do_in_project_directory do
-        `docker-compose -p #{name} stop`
+        capture2e_with_logs("docker-compose -p #{name} stop")
       end
       FileUtils.rm_rf(directory)
-      logger.info "Successfully destroy app '#{name}'."
+      logger.info "Successfully destroyed app '#{name}'."
     end
 
     private
@@ -43,7 +46,7 @@ class ReviewLab
     def start_app
       logger.info "Starting review app '#{name}'."
       do_in_project_directory do
-        `docker-compose -p #{name} up -d`
+        capture2e_with_logs("docker-compose -p #{name} up -d")
       end
       logger.info "Successfully started review app '#{name}'."
     end
@@ -60,8 +63,7 @@ class ReviewLab
     def execute_before_script
       do_in_project_directory do
         before_scripts.each do |script|
-          logger.info "Execute '#{script}'."
-          `#{script}`
+          capture2e_with_logs(script)
         end
       end
     end
