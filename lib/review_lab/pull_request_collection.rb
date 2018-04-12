@@ -9,11 +9,10 @@ class ReviewLab
   class PullRequestCollection
     include ActiveModel::Model
     include Logger
-    attr_accessor :username, :password, :repository, :organization, :labels
+    attr_accessor :repository, :organization, :labels, :client
     attr_writer :logger
 
     def all
-      authenticate
       logger.info "Fetching pull requests with label '#{labels}' for '#{full_repository_name}'."
       pull_requests
     end
@@ -25,32 +24,18 @@ class ReviewLab
       # fetching pull requests by their label
       pull_request_numbers.map do |pull_request_number|
         PullRequest.new(
-          content: Octokit.pull_request(full_repository_name, pull_request_number.number),
+          content: client.pull_request(full_repository_name, pull_request_number.number),
           logger: logger
         )
       end
     end
 
     def pull_request_numbers
-      Octokit.list_issues(full_repository_name, labels: labels).find_all(&:pull_request)
-    end
-
-    def authenticate
-      return unless credentials?
-      logger.info "Try to authenticate to GitHub with username #{username}."
-      Octokit.configure do |c|
-        c.login = username
-        c.password = password
-      end
-      logger.info "Successfully authenticated to GitHub with username #{username}."
+      client.list_issues(full_repository_name, labels: labels).find_all(&:pull_request)
     end
 
     def full_repository_name
       "#{organization}/#{repository}"
-    end
-
-    def credentials?
-      username.present? && password.present?
     end
   end
 end

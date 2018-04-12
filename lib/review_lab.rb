@@ -16,6 +16,8 @@ class ReviewLab
     create_working_directory
     deploy_review_apps
     destroy_review_apps
+  rescue StandardError => e
+    logger.error(e)
   end
 
   attr_accessor :running_apps
@@ -51,6 +53,7 @@ class ReviewLab
       pull_request: pull_request,
       project_name: config['github_repository'],
       host: config['host'],
+      client: client,
       options: review_app_options,
       logger: logger
     ).deploy
@@ -121,14 +124,28 @@ class ReviewLab
 
   def pull_requests
     result = PullRequestCollection.new(
-      username: config['github_username'],
-      password: config['github_password'],
       organization: config['github_organization'],
       repository: config['github_repository'],
       labels: config['github_labels'],
+      client: client,
       logger: logger
     ).all
     logger.info("Found #{result.count} open pull requests.")
     result
+  end
+
+  def credentials?
+    config['github_username'].present? && config['github_password'].present?
+  end
+
+  def client
+    return @client if @client.present?
+    if credentials?
+      logger.info "Authenticating to GitHub with username #{config['github_username']}."
+      @client = Octokit::Client.new(login: config['github_username'], password: config['github_password'])
+    else
+      logger.info 'Using github API as anonymous user.'
+      @client = Octokit::Client.new
+    end
   end
 end

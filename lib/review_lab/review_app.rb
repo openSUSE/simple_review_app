@@ -6,26 +6,30 @@ require 'open3'
 require './lib/review_lab/logger'
 require './lib/review_lab/docker_compose_file'
 require './lib/review_lab/utils'
+require './lib/review_lab/pull_request_comment'
 
 class ReviewLab
   class ReviewApp
     include ActiveModel::Model
+    extend ActiveModel::Callbacks
     include Logger
     include Utils
-    attr_accessor :pull_request, :host, :project_name, :options
+    attr_accessor :pull_request, :host, :project_name, :client, :options
     attr_writer :name, :logger
 
+    define_model_callbacks :deploy
+    after_deploy PullRequestComment
+
     def deploy
-      if exists?
-        pull_request.update(directory)
-        return name
+      run_callbacks :deploy do
+        if exists?
+          pull_request.update(directory)
+          return name # we need to return here, otherwise comment is created
+        else
+          create
+        end
+        name
       end
-      pull_request.clone(directory)
-      execute_before_script
-      copy_files
-      docker_compose_file.set_review_app_information
-      start_app
-      name
     end
 
     def destroy
@@ -37,7 +41,19 @@ class ReviewLab
       logger.info "Successfully destroyed app '#{name}'."
     end
 
+    def url
+      "http://#{host}/#{name}"
+    end
+
     private
+
+    def create
+      pull_request.clone(directory)
+      execute_before_script
+      copy_files
+      docker_compose_file.set_review_app_information
+      start_app
+    end
 
     def exists?
       File.exist?(directory)
