@@ -26,12 +26,20 @@ class ReviewLab
       end
     end
 
+    def number
+      content.number
+    end
+
     def user_login
       content.head.user.login
     end
 
     def branch
       content.head.ref
+    end
+
+    def full_repository_name
+      content.head.repo.full_name
     end
 
     private
