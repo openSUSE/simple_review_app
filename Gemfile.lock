@@ -27,6 +27,7 @@ GEM
     powerpack (0.1.1)
     public_suffix (3.0.2)
     rainbow (3.0.0)
+    rake (12.3.1)
     rubocop (0.54.0)
       parallel (~> 1.10)
       parser (>= 2.5)
@@ -53,6 +54,7 @@ DEPENDENCIES
   activemodel
   daemons
   octokit (~> 4.0)
+  rake
   rubocop
   rubocop-rspec
   zaru
