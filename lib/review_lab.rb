@@ -16,6 +16,8 @@ class ReviewLab
     create_working_directory
     deploy_review_apps
     destroy_review_apps
+  rescue StandardError => e
+    logger.error(e)
   end
 
   attr_accessor :running_apps
