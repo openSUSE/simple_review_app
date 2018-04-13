@@ -49,16 +49,19 @@ class ReviewLab
 
     def update
       pull_request.update(directory)
-      execute_before_script
-      copy_files
+      provision
     end
 
     def create
       pull_request.clone(directory)
+      provision
+      start_app
+    end
+
+    def provision
       execute_before_script
       copy_files
       docker_compose_file.set_review_app_information
-      start_app
     end
 
     def exists?
