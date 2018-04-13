@@ -54,6 +54,7 @@ class ReviewLab
       project_name: config['github_repository'],
       host: config['host'],
       client: client,
+      service_name: config['service_name'],
       options: review_app_options,
       logger: logger
     ).deploy

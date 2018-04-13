@@ -14,7 +14,7 @@ class ReviewLab
     extend ActiveModel::Callbacks
     include Logger
     include Utils
-    attr_accessor :pull_request, :host, :project_name, :client, :options
+    attr_accessor :pull_request, :host, :project_name, :client, :service_name, :options
     attr_writer :name, :logger
 
     define_model_callbacks :deploy
@@ -100,7 +100,7 @@ class ReviewLab
     def docker_compose_file
       @docker_compose_file ||= DockerComposeFile.new(
         path: docker_compose_file_path,
-        service_name: 'frontend',
+        service_name: service_name,
         app_name: name,
         host: host,
         logger: logger
