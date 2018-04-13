@@ -9,7 +9,7 @@ class ReviewLab
     include ActiveModel::Model
     include Logger
     include Utils
-    attr_accessor :content
+    attr_accessor :content, :full_repository_name
     attr_writer :logger
 
     def update(directory)
@@ -36,10 +36,6 @@ class ReviewLab
 
     def branch
       content.head.ref
-    end
-
-    def full_repository_name
-      content.head.repo.full_name
     end
 
     private

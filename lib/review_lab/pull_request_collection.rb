@@ -25,6 +25,7 @@ class ReviewLab
       pull_request_numbers.map do |pull_request_number|
         PullRequest.new(
           content: client.pull_request(full_repository_name, pull_request_number.number),
+          full_repository_name: full_repository_name,
           logger: logger
         )
       end
