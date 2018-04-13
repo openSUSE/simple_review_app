@@ -21,13 +21,13 @@ class ReviewLab
     after_deploy PullRequestComment
 
     def deploy
+      if exists?
+        update
+        return name
+      end
+
       run_callbacks :deploy do
-        if exists?
-          pull_request.update(directory)
-          return name # we need to return here, otherwise comment is created
-        else
-          create
-        end
+        create
         name
       end
     end
@@ -46,6 +46,12 @@ class ReviewLab
     end
 
     private
+
+    def update
+      pull_request.update(directory)
+      execute_before_script
+      copy_files
+    end
 
     def create
       pull_request.clone(directory)
