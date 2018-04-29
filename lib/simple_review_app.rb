@@ -17,7 +17,6 @@ class SimpleReviewApp
                 :github_repository,
                 :github_labels,
                 :host,
-                :docker_service_name,
                 :docker_compose_file_name,
                 :prepare_block,
                 :overlay_files_directory
@@ -67,7 +66,6 @@ class SimpleReviewApp
       project_name: github_repository,
       host: host,
       client: client,
-      service_name: docker_service_name,
       data_directory: data_directory,
       prepare_block: prepare_block,
       overlay_files_directory: overlay_files_directory,

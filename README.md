@@ -27,10 +27,6 @@ SimpleReviewApp.setup do |config|
   # simple_review_app will construct the
   # full repository name by github_organization/github_repository
   # config.github_organization = ''
-  
-  # Name of the docker service (obsolete)
-  # config.docker_service_name = 'frontend'
-
 
   # Optional configuration
   

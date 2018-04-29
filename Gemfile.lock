@@ -16,6 +16,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     i18n (1.0.0)
       concurrent-ruby (~> 1.0)
+    liquid (4.0.0)
     minitest (5.11.3)
     multipart-post (2.0.0)
     octokit (4.8.0)
@@ -51,6 +52,7 @@ PLATFORMS
 
 DEPENDENCIES
   activemodel
+  liquid
   octokit (~> 4.0)
   rake
   rubocop

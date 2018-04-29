@@ -18,7 +18,6 @@ class SimpleReviewApp
     attr_accessor :pull_request,
                   :project_name,
                   :client,
-                  :service_name,
                   :data_directory,
                   :prepare_block,
                   :overlay_files_directory
@@ -76,7 +75,7 @@ class SimpleReviewApp
     def provision
       execute_prepare_block
       copy_files
-      docker_compose_file.set_review_app_information
+      docker_compose_file.update
     end
 
     def exists?
@@ -106,16 +105,11 @@ class SimpleReviewApp
 
     def docker_compose_file
       @docker_compose_file ||= DockerComposeFile.new(
-        path: docker_compose_file_path,
-        service_name: service_name,
+        path: File.join(project_directory, docker_compose_file_name),
         app_name: name,
         host: host,
         logger: logger
       )
-    end
-
-    def docker_compose_file_path
-      "#{project_directory}/#{docker_compose_file_name}"
     end
 
     def name
