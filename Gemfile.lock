@@ -12,7 +12,6 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
     concurrent-ruby (1.0.5)
-    daemons (1.2.6)
     faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
     i18n (1.0.0)
@@ -52,7 +51,6 @@ PLATFORMS
 
 DEPENDENCIES
   activemodel
-  daemons
   octokit (~> 4.0)
   rake
   rubocop

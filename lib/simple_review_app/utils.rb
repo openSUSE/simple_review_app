@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ReviewLab
+class SimpleReviewApp
   module Utils
     def capture2e_with_logs(cmd)
       logger.info("Execute command '#{cmd}'.")

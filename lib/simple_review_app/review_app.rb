@@ -3,19 +3,26 @@
 require 'zaru'
 require 'active_model'
 require 'open3'
-require './lib/review_lab/logger'
-require './lib/review_lab/docker_compose_file'
-require './lib/review_lab/utils'
-require './lib/review_lab/pull_request_comment'
+require 'fileutils'
+require_relative 'logger'
+require_relative 'docker_compose_file'
+require_relative 'utils'
+require_relative 'pull_request_comment'
 
-class ReviewLab
+class SimpleReviewApp
   class ReviewApp
     include ActiveModel::Model
     extend ActiveModel::Callbacks
     include Logger
     include Utils
-    attr_accessor :pull_request, :host, :project_name, :client, :service_name, :options
-    attr_writer :name, :logger
+    attr_accessor :pull_request,
+                  :project_name,
+                  :client,
+                  :service_name,
+                  :data_directory,
+                  :prepare_block,
+                  :overlay_files_directory
+    attr_writer :name, :logger, :host, :docker_compose_file_name
 
     define_model_callbacks :deploy
     after_deploy PullRequestComment
@@ -35,7 +42,7 @@ class ReviewLab
     def destroy
       logger.info "Destroy review app '#{name}'."
       do_in_project_directory do
-        capture2e_with_logs("docker-compose -p #{name} stop")
+        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} stop")
       end
       FileUtils.rm_rf(directory)
       logger.info "Successfully destroyed app '#{name}'."
@@ -46,6 +53,14 @@ class ReviewLab
     end
 
     private
+
+    def host
+      @host ||= 'localhost'
+    end
+
+    def docker_compose_file_name
+      @docker_compose_file_name ||= 'docker-compose.yml'
+    end
 
     def update
       pull_request.update(directory)
@@ -59,42 +74,34 @@ class ReviewLab
     end
 
     def provision
-      execute_before_script
+      execute_prepare_block
       copy_files
       docker_compose_file.set_review_app_information
     end
 
     def exists?
-      File.exist?(directory)
+      ::File.exist?(directory)
     end
 
     def start_app
       logger.info "Starting review app '#{name}'."
       do_in_project_directory do
-        capture2e_with_logs("docker-compose -p #{name} up -d")
+        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} up -d")
       end
       logger.info "Successfully started review app '#{name}'."
     end
 
     def copy_files
-      logger.info "Copy overlay files from '#{files_directory}' to '#{project_directory}'."
-      FileUtils.cp_r(Dir[files_directory], project_directory)
+      return if overlay_files_directory.blank?
+      logger.info "Copy overlay files from '#{overlay_files_directory}' to '#{project_directory}'."
+      FileUtils.cp_r(Dir["#{overlay_files_directory}/*"], project_directory)
     end
 
-    def files_directory
-      File.join(options[:working_directory], '..', 'files/*')
-    end
-
-    def execute_before_script
+    def execute_prepare_block
+      return if prepare_block.blank?
       do_in_project_directory do
-        before_scripts.each do |script|
-          capture2e_with_logs(script)
-        end
+        logger.info prepare_block.call
       end
-    end
-
-    def before_scripts
-      options[:before_script] || []
     end
 
     def docker_compose_file
@@ -108,7 +115,7 @@ class ReviewLab
     end
 
     def docker_compose_file_path
-      "#{project_directory}/docker-compose.yml"
+      "#{project_directory}/#{docker_compose_file_name}"
     end
 
     def name
@@ -116,7 +123,7 @@ class ReviewLab
     end
 
     def directory
-      File.join(options[:working_directory], name)
+      File.join(data_directory, name)
     end
 
     def project_directory

@@ -2,9 +2,9 @@
 
 require 'yaml'
 require 'active_model'
-require './lib/review_lab/logger'
+require_relative 'logger'
 
-class ReviewLab
+class SimpleReviewApp
   class DockerComposeFile
     include ActiveModel::Model
     include Logger

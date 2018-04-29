@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'active_model'
-require './lib/review_lab/logger'
+require_relative 'logger'
 
-class ReviewLab
+class SimpleReviewApp
   class PullRequestComment
     include ActiveModel::Model
     include Logger

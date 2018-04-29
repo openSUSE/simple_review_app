@@ -2,7 +2,7 @@
 
 require 'logger'
 
-class ReviewLab
+class SimpleReviewApp
   module Logger
     def logger
       @logger ||= ::Logger.new(STDOUT).tap do |log|

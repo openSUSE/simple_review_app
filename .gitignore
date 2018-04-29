@@ -54,3 +54,4 @@ build-iPhoneSimulator/
 config.yml
 /logs
 lib/review_lab.rb.pid
+/data

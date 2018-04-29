@@ -2,10 +2,10 @@
 
 require 'octokit.rb'
 require 'active_model'
-require './lib/review_lab/logger'
-require './lib/review_lab/pull_request'
+require_relative 'logger'
+require_relative 'pull_request'
 
-class ReviewLab
+class SimpleReviewApp
   class PullRequestCollection
     include ActiveModel::Model
     include Logger
