@@ -79,6 +79,44 @@ end
 SimpleReviewApp.run
 ```
 
+The simple_review_app will loop over all open pull requests, checks out the pull requests with the specified label and run a docker-compose up. 
+To make it possible to run several apps on the same machine, Traefik will come to the rescue.
+Therefore we need to adapt the docker-compose file a little bit. 
+In simplest case, it can look like this:
+
+```
+version: '2'
+services:
+  db:
+    image: openbuildservice/mariadb
+  frontend:
+    image: openbuildservice/frontend
+    networks:
+    - traefik
+    - default
+    volumes:
+    - ".:/obs"
+    environment:
+    - RAILS_RELATIVE_URL_ROOT={{ root_url }}
+    labels:
+      traefik.frontend.rule: {{ traefik_frontend_rule }}
+      traefik.docker.network: traefik_default
+      traefik.port: '3000'
+    depends_on:
+    - db
+networks:
+  traefik:
+    external:
+      name: traefik_default
+```
+
+In this docker-compose file, we have to containers running: the database and the frontend app.
+The interesting part is the frontend app. 
+To make it possible to work with Traefik, it needs to be in the same network as the Traefik container.
+This can be done by adding the networks section and adding the ``traefik`` and ``default`` (otherwise the container can not reach the db anymore) networks.
+Second, it needs to be possible to run the app in a subfolder, for Rails application you need to pass ``RAILS_RELATIVE_URL_ROOT={{ root_url }}`` to the container (root_url will get replaced by simple_review_app).
+Last but not least, we need to add the labels section to the container.
+
 ## Dependencies
 
 As said, this gem makes heavily use of docker and docker-compose, so you need to install these dependencies before you can use simple_review_app:
