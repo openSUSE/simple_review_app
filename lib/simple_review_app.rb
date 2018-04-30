@@ -7,6 +7,7 @@ require_relative 'simple_review_app/review_app'
 require_relative 'simple_review_app/pull_request_collection'
 require_relative 'simple_review_app/logger'
 
+# rubocop:disable Metrics/ClassLength
 class SimpleReviewApp
   include ActiveModel::Model
   include Logger
@@ -61,6 +62,7 @@ class SimpleReviewApp
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def deploy_review_app(pull_request)
     running_apps << ReviewApp.new(
       pull_request: pull_request,
@@ -74,6 +76,7 @@ class SimpleReviewApp
       disable_comments: disable_comments,
       logger: logger
     ).deploy
+    # rubocop:enable Metrics/MethodLength
   end
 
   def destroy_review_apps
@@ -136,3 +139,4 @@ class SimpleReviewApp
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
