@@ -115,7 +115,9 @@ The interesting part is the frontend app.
 To make it possible to work with Traefik, it needs to be in the same network as the Traefik container.
 This can be done by adding the networks section and adding the ``traefik`` and ``default`` (otherwise the container can not reach the db anymore) networks.
 Second, it needs to be possible to run the app in a subfolder, for Rails application you need to pass ``RAILS_RELATIVE_URL_ROOT={{ root_url }}`` to the container (root_url will get replaced by simple_review_app).
+For rails application, you might need to adapt the ``config.ru`` file to setup the routing.
 Last but not least, we need to add the labels section to the container.
+A full example can be found in this repository: https://github.com/ChrisBr/obs-review-apps
 
 ## Dependencies
 
