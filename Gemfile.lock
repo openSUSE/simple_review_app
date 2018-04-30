@@ -1,9 +1,19 @@
+PATH
+  remote: .
+  specs:
+    simple_review_app (0.0.0)
+      activemodel (~> 5.1)
+      liquid (~> 4.0)
+      octokit (~> 4.0)
+      rake (~> 12.3)
+      zaru (~> 0.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.1.6)
-      activesupport (= 5.1.6)
-    activesupport (5.1.6)
+    activemodel (5.2.0)
+      activesupport (= 5.2.0)
+    activesupport (5.2.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -12,9 +22,9 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
     concurrent-ruby (1.0.5)
-    faraday (0.14.0)
+    faraday (0.15.0)
       multipart-post (>= 1.2, < 3)
-    i18n (1.0.0)
+    i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     liquid (4.0.0)
     minitest (5.11.3)
@@ -51,13 +61,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activemodel
-  liquid
-  octokit (~> 4.0)
-  rake
   rubocop
   rubocop-rspec
-  zaru
+  simple_review_app!
 
 BUNDLED WITH
    1.16.1
