@@ -51,7 +51,7 @@ build-iPhoneSimulator/
 
 # the tmp directory for all review apps
 /review_apps
-config.yml
 /logs
+/log
 lib/review_lab.rb.pid
 /data
