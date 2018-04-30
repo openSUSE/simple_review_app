@@ -20,11 +20,12 @@ class SimpleReviewApp
                   :client,
                   :data_directory,
                   :prepare_block,
-                  :overlay_files_directory
+                  :overlay_files_directory,
+                  :disable_comments
     attr_writer :name, :logger, :host, :docker_compose_file_name
 
     define_model_callbacks :deploy
-    after_deploy PullRequestComment
+    after_deploy PullRequestComment, unless: :disable_comments
 
     def deploy
       if exists?

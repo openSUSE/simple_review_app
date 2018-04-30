@@ -19,7 +19,8 @@ class SimpleReviewApp
                 :host,
                 :docker_compose_file_name,
                 :prepare_block,
-                :overlay_files_directory
+                :overlay_files_directory,
+                :disable_comments
   attr_writer :logger, :data_directory
 
   def self.run
@@ -70,6 +71,7 @@ class SimpleReviewApp
       prepare_block: prepare_block,
       overlay_files_directory: overlay_files_directory,
       docker_compose_file_name: docker_compose_file_name,
+      disable_comments: disable_comments,
       logger: logger
     ).deploy
   end

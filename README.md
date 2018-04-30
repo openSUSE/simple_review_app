@@ -43,6 +43,9 @@ SimpleReviewApp.setup do |config|
   # config.github_username = ''
   # config.github_password = ''
   
+  # In some cases it might also be desirable to disable the comments completely.
+  # config.disable_comments = false
+  
   # Hostname which will get set in Traefik
   # Default: localhost
   # config.host = ''
