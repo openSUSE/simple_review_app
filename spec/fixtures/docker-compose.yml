@@ -1,0 +1,24 @@
+---
+version: '2'
+services:
+  db:
+    image: openbuildservice/mariadb
+  frontend:
+    image: openbuildservice/frontend
+    networks:
+    - traefik
+    - default
+    volumes:
+    - ".:/obs"
+    environment:
+    - RAILS_RELATIVE_URL_ROOT={{ root_url }}
+    labels:
+      traefik.frontend.rule: {{ traefik_frontend_rule }}
+      traefik.docker.network: traefik_default
+      traefik.port: '3000'
+    depends_on:
+    - db
+networks:
+  traefik:
+    external:
+      name: traefik_default

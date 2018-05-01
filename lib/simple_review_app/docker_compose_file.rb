@@ -21,6 +21,8 @@ class SimpleReviewApp
       File.open(path, 'w') do |f|
         f.write(result)
       end
+      @content = nil
+      self
     end
 
     private
