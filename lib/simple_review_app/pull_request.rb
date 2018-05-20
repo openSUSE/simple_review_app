@@ -73,7 +73,7 @@ class SimpleReviewApp
     end
 
     def clone_command
-      "git clone -b #{branch} --single-branch #{fork_url}"
+      "git clone -b #{branch} --depth 1 --single-branch #{fork_url}"
     end
   end
 end
