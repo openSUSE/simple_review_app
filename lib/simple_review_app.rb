@@ -3,6 +3,7 @@
 require 'yaml'
 require 'fileutils'
 require 'active_model'
+require 'open3'
 require_relative 'simple_review_app/review_app'
 require_relative 'simple_review_app/pull_request_collection'
 require_relative 'simple_review_app/traefik'
@@ -40,6 +41,7 @@ class SimpleReviewApp
   def run
     logger.info('Starting review lab.')
     self.running_apps = []
+    check_dependencies
     Traefik.up
     create_data_directory
     deploy_review_apps
@@ -139,6 +141,13 @@ class SimpleReviewApp
       logger.info 'Using github API as anonymous user.'
       @client = Octokit::Client.new
     end
+  end
+
+  def check_dependencies
+    _stdout_and_stderr_str, status = Open3.capture2e('which docker')
+    abort('Please install docker first') unless status.success?
+    _stdout_and_stderr_str, status = Open3.capture2e('which docker-compose')
+    abort('Please install docker-compose first') unless status.success?
   end
 end
 # rubocop:enable Metrics/ClassLength
