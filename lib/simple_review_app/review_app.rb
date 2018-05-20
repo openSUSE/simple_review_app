@@ -9,6 +9,7 @@ require_relative 'docker_compose_file'
 require_relative 'utils'
 require_relative 'pull_request_comment'
 
+# rubocop:disable Metrics/ClassLength
 class SimpleReviewApp
   class ReviewApp
     include ActiveModel::Model
@@ -25,7 +26,7 @@ class SimpleReviewApp
     attr_writer :name, :logger, :host, :docker_compose_file_name
 
     define_model_callbacks :deploy
-    after_deploy PullRequestComment, unless: :disable_comments
+    after_deploy PullRequestComment, unless: :disable_comments?
 
     def deploy
       if exists?
@@ -53,6 +54,10 @@ class SimpleReviewApp
     end
 
     private
+
+    def disable_comments?
+      disable_comments || !client.login || !client.password
+    end
 
     def host
       @host ||= 'localhost'
@@ -132,3 +137,4 @@ class SimpleReviewApp
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
