@@ -17,10 +17,11 @@ class SimpleReviewApp
     end
 
     def update
-      result = template.render(attributes)
+      @content = template.render(attributes)
       File.open(path, 'w') do |f|
-        f.write(result)
+        f.write(@content)
       end
+      self
     end
 
     private

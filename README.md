@@ -1,6 +1,12 @@
 # Simple Review App
 
-Review apps are apps which get created on the fly for open pull requests to make it easier to review. Review apps are greate :smile:
+Review apps are apps which get created on the fly for open pull requests to make it easier to review. Review apps are great :smile:
+
+## Why?
+
+We wanted to have something lightweight to create review apps instead of maintaining e.g. a Cloud or Kubernetes. 
+The simple_review_app app is only docker.
+So if your app already runs with docker-compose, it is very likely that simple_review_app works already out of the box.
 
 ## Getting started
 
@@ -79,9 +85,10 @@ end
 SimpleReviewApp.run
 ```
 
-The simple_review_app will loop over all open pull requests, checks out the pull requests with the specified label and run a docker-compose up. 
-To make it possible to run several apps on the same machine, Traefik will come to the rescue.
-Therefore we need to adapt the docker-compose file a little bit. 
+The simple_review_app will loop over all open pull requests, checks out the pull requests with the specified label and run a docker-compose up.
+
+To make it possible to run several apps on the same machine, the awesome [Traefik proxy](https://traefik.io/) will come to the rescue.
+To make Traefik happy, you need to adapt your docker-compose file a little bit.
 In simplest case, it can look like this:
 
 ```
@@ -110,13 +117,21 @@ networks:
       name: traefik_default
 ```
 
-In this docker-compose file, we have to containers running: the database and the frontend app.
-The interesting part is the frontend app. 
+In this docker-compose file, we have two containers running: the database and the frontend app.
+The interesting part is the frontend app.
+
 To make it possible to work with Traefik, it needs to be in the same network as the Traefik container.
 This can be done by adding the networks section and adding the ``traefik`` and ``default`` (otherwise the container can not reach the db anymore) networks.
+
 Second, it needs to be possible to run the app in a subfolder, for Rails application you need to pass ``RAILS_RELATIVE_URL_ROOT={{ root_url }}`` to the container (root_url will get replaced by simple_review_app).
 For rails application, you might need to adapt the ``config.ru`` file to setup the routing.
+
 Last but not least, we need to add the labels section to the container.
+
+In your docker-compose file you can make use of these variables which get assigned by simple_review_app:
+- root_url: the URL of the review app, e.g. /my-pull-request-42
+- traefik_frontend_rule: Overwrites the Traefik frontend rule to e.g. ``Host:localhost; PathPrefix:/my-pull-request-42``. This would make the review app available at ``localhost/my-pull-request-42`` (https://docs.traefik.io/configuration/backends/docker/#on-containers)
+
 A full example can be found in this repository: https://github.com/ChrisBr/obs-review-apps
 
 ## Dependencies
@@ -131,3 +146,7 @@ usermod -a -G docker review-lab
 systemctl enable docker
 systemctl start docker
 ```
+
+## Thanks
+
+This gem wouldn't be possible without [docker](https://www.docker.com/), [docker-compose](https://docs.docker.com/compose/) and [Traefik](https://traefik.io/).
