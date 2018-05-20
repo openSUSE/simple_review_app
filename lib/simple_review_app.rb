@@ -5,6 +5,7 @@ require 'fileutils'
 require 'active_model'
 require_relative 'simple_review_app/review_app'
 require_relative 'simple_review_app/pull_request_collection'
+require_relative 'simple_review_app/traefik'
 require_relative 'simple_review_app/logger'
 
 # rubocop:disable Metrics/ClassLength
@@ -39,6 +40,7 @@ class SimpleReviewApp
   def run
     logger.info('Starting review lab.')
     self.running_apps = []
+    Traefik.up
     create_data_directory
     deploy_review_apps
     destroy_review_apps
