@@ -9,4 +9,6 @@ group :test, :development do
   gem 'rspec_junit_formatter'
   gem 'rubocop'
   gem 'rubocop-rspec'
+  gem 'vcr'
+  gem 'webmock'
 end
