@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'open3'
+
 class SimpleReviewApp
   module Utils
     def capture2e_with_logs(cmd)
