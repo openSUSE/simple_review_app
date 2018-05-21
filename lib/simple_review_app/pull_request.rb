@@ -20,7 +20,7 @@ class SimpleReviewApp
     end
 
     def clone(directory)
-      Dir.mkdir(directory)
+      FileUtils.mkdir_p(directory) unless File.exist?(directory)
       Dir.chdir(directory) do
         capture2e_with_logs(clone_command)
       end
