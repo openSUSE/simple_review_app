@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'date'
+
 Gem::Specification.new do |s|
   s.name        = 'simple_review_app'
   s.version     = '0.0.0'
