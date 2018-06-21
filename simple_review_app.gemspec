@@ -3,7 +3,7 @@
 Gem::Specification.new do |s|
   s.name        = 'simple_review_app'
   s.version     = '0.0.0'
-  s.date        = '2018-04-28'
+  s.date        = Date.today.to_s
   s.summary     = 'Create review apps based on github pull requests'
   s.description = 'Create reivew apps based on github pull requests and your docker-compose configuration'
   s.authors     = ['Christian Bruckmayer']
