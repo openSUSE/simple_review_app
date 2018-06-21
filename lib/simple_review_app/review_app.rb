@@ -56,7 +56,7 @@ class SimpleReviewApp
     private
 
     def disable_comments?
-      disable_comments || !client.login || !client.password
+      disable_comments || !client.login
     end
 
     def host
