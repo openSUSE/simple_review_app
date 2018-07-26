@@ -42,9 +42,7 @@ class SimpleReviewApp
 
     def destroy
       logger.info "Destroy review app '#{name}'."
-      do_in_project_directory do
-        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} stop")
-      end
+      stop_app
       FileUtils.rm_rf(directory)
       logger.info "Successfully destroyed app '#{name}'."
     end
@@ -70,6 +68,8 @@ class SimpleReviewApp
     def update
       pull_request.update(directory)
       provision
+      stop_app
+      start_app
     end
 
     def create
@@ -94,6 +94,14 @@ class SimpleReviewApp
         capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} up -d")
       end
       logger.info "Successfully started review app '#{name}'."
+    end
+
+    def stop_app
+      logger.info "Stopping review app '#{name}'."
+      do_in_project_directory do
+        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} stop")
+      end
+      logger.info "Successfully stopped review app '#{name}'."
     end
 
     def copy_files
