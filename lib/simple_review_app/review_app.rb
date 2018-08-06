@@ -91,7 +91,8 @@ class SimpleReviewApp
     def start_app
       logger.info "Starting review app '#{name}'."
       do_in_project_directory do
-        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} up -d")
+        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} pull")
+        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} up --build -d")
       end
       logger.info "Successfully started review app '#{name}'."
     end
