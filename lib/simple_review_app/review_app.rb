@@ -66,7 +66,7 @@ class SimpleReviewApp
     end
 
     def update
-      pull_request.update(directory)
+      return unless pull_request.update(directory)
       provision
       stop_app
       start_app
