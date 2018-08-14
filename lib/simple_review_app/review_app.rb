@@ -42,7 +42,7 @@ class SimpleReviewApp
 
     def destroy
       logger.info "Destroy review app '#{name}'."
-      stop_app
+      stop_app(true)
       FileUtils.rm_rf(directory)
       logger.info "Successfully destroyed app '#{name}'."
     end
@@ -66,7 +66,7 @@ class SimpleReviewApp
     end
 
     def update
-      pull_request.update(directory)
+      return unless pull_request.update(directory)
       provision
       stop_app
       start_app
@@ -97,10 +97,14 @@ class SimpleReviewApp
       logger.info "Successfully started review app '#{name}'."
     end
 
-    def stop_app
+    def stop_app(destroy = false)
       logger.info "Stopping review app '#{name}'."
       do_in_project_directory do
-        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} down -v")
+        if destroy
+          capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} down -v")
+        else
+          capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} stop")
+        end
       end
       logger.info "Successfully stopped review app '#{name}'."
     end

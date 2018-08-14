@@ -14,9 +14,10 @@ class SimpleReviewApp
 
     def update(directory)
       logger.info('Pull request already exists.')
-      return unless changed?(directory)
+      return false unless changed?(directory)
       logger.info('Pull request changed, updating...')
       fetch_and_reset(directory)
+      true
     end
 
     def clone(directory)
