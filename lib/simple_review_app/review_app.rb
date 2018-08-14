@@ -100,7 +100,7 @@ class SimpleReviewApp
     def stop_app
       logger.info "Stopping review app '#{name}'."
       do_in_project_directory do
-        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} stop")
+        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} down -v")
       end
       logger.info "Successfully stopped review app '#{name}'."
     end
