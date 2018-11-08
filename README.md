@@ -134,6 +134,21 @@ In your docker-compose file you can make use of these variables which get assign
 
 A full example can be found in this repository: https://github.com/ChrisBr/obs-review-apps
 
+## Run automatically
+We currently run the simple_review_app every few minutes in a cron job. If your configuration is located in ``/review-lab/obs-review-app`` you can add the following line to your cron jobs with ``crontab -e``:
+
+```
+*/5 * * * * cd /review-lab/obs-review-apps && bundle exec ./bin/simple_review_app >> /review-lab/logs/simple_review_app.log
+# empty line
+```
+
+Additionally it is recommended to prune your docker data every day with:
+
+```
+0 3 * * * /usr/bin/docker system prune -f
+# empty line required
+```
+
 ## Dependencies
 
 As said, this gem makes heavily use of docker and docker-compose, so you need to install these dependencies before you can use simple_review_app:
