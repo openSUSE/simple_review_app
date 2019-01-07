@@ -12,13 +12,13 @@ So if your app already runs with docker-compose, it is very likely that simple_r
 
 To use simple_review_app you need to have Ruby, Docker and docker-compose installed. Installing simple_review_app can be done by:
 
-```
+```bash
 gem 'simple_review_app'
 ```
 
 Add this binary file to bin/simple_review_app and configure simple_review_app:
 
-```
+```ruby
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
@@ -91,7 +91,7 @@ To make it possible to run several apps on the same machine, the awesome [Traefi
 To make Traefik happy, you need to adapt your docker-compose file a little bit.
 In simplest case, it can look like this:
 
-```
+```yaml
 version: '2'
 services:
   db:
@@ -137,14 +137,14 @@ A full example can be found in this repository: https://github.com/ChrisBr/obs-r
 ## Run automatically
 We currently run the simple_review_app every few minutes in a cron job. If your configuration is located in ``/review-lab/obs-review-app`` you can add the following line to your cron jobs with ``crontab -e``:
 
-```
+```bash
 */5 * * * * cd /review-lab/obs-review-apps && bundle exec ./bin/simple_review_app >> /review-lab/logs/simple_review_app.log
 # empty line
 ```
 
 Additionally it is recommended to prune your docker data every day with:
 
-```
+```bash
 0 3 * * * /usr/bin/docker system prune -f
 # empty line required
 ```
@@ -155,7 +155,7 @@ As said, this gem makes heavily use of docker and docker-compose, so you need to
 
 Install docker, docker-compose and add your user to the docker group. Finally start and enable the docker service:
 
-```
+```bash
 zypper in docker docker-compose
 usermod -a -G docker review-lab
 systemctl enable docker
