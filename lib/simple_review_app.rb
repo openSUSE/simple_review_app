@@ -14,6 +14,7 @@ class SimpleReviewApp
   include ActiveModel::Model
   include Logger
   attr_accessor :running_apps,
+                :github_access_token,
                 :github_username,
                 :github_password,
                 :github_organization,
@@ -137,6 +138,9 @@ class SimpleReviewApp
     if credentials?
       logger.info "Authenticating to GitHub with username #{github_username}."
       @client = Octokit::Client.new(login: github_username, password: github_password)
+    elsif github_access_token.present?
+      logger.info "Authenticating to GitHub with access token."
+      @client = Octokit::Client.new(access_token: github_access_token)
     else
       logger.info 'Using github API as anonymous user.'
       @client = Octokit::Client.new
