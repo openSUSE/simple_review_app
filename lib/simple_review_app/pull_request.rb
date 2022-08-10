@@ -13,11 +13,12 @@ class SimpleReviewApp
     attr_writer :logger
 
     def update(directory)
-      logger.info('Pull request already exists.')
-      return false unless changed?(directory)
-      logger.info('Pull request changed, updating...')
-      fetch_and_reset(directory)
-      true
+      if changed?(directory)
+        logger.info('Pull request changed, updating...')
+        fetch_and_reset(directory)
+      else
+        logger.info('Pull request did not change, continue...')
+      end
     end
 
     def clone(directory)
@@ -50,9 +51,7 @@ class SimpleReviewApp
     end
 
     def changed?(directory)
-      return true if head_sha != cloned_sha(directory)
-      logger.info('Pull request did not change, continue...')
-      false
+      head_sha != cloned_sha(directory)
     end
 
     def project_name

@@ -66,7 +66,8 @@ class SimpleReviewApp
     end
 
     def update
-      return unless pull_request.update(directory)
+      pull_request.update(directory)
+
       provision
       stop_app
       start_app
@@ -85,7 +86,10 @@ class SimpleReviewApp
     end
 
     def exists?
-      ::File.exist?(directory)
+      return false unless ::File.exist?(directory)
+
+      logger.info('Pull request already exists.')
+      true
     end
 
     def start_app
@@ -111,12 +115,14 @@ class SimpleReviewApp
 
     def copy_files
       return if overlay_files_directory.blank?
+
       logger.info "Copy overlay files from '#{overlay_files_directory}' to '#{project_directory}'."
       FileUtils.cp_r(Dir["#{overlay_files_directory}/*"], project_directory)
     end
 
     def execute_prepare_block
       return if prepare_block.blank?
+
       do_in_project_directory do
         logger.info prepare_block.call
       end
