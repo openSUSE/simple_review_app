@@ -1,11 +1,10 @@
 AllCops:
-   Exclude:
-     - 'node_modules/**/*'
-     - 'vendor/**/*'
-     - '.git/**/*'
-     - 'review_apps/**/*'
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'review_apps/**/*'
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 150
 
 Metrics/BlockLength:
@@ -13,4 +12,6 @@ Metrics/BlockLength:
     - 'spec/**/*.rb'
 
 Style/Documentation:
-  Enabled: false  
+  Enabled: false
+
+inherit_from: .rubocop_todo.yml
