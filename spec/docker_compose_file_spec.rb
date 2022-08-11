@@ -5,6 +5,8 @@ require 'simple_review_app/docker_compose_file'
 require 'fileutils'
 
 describe SimpleReviewApp::DockerComposeFile do
+  subject { docker_compose_file }
+
   let(:filename) { 'spec-docker-compose.yml' }
   let(:dir) { 'spec/fixtures/' }
   let(:path) { File.join(dir, filename) }
@@ -23,8 +25,6 @@ describe SimpleReviewApp::DockerComposeFile do
       FileUtils.rm filename
     end
   end
-
-  subject { docker_compose_file }
 
   describe '#update' do
     it 'does update set the root_url' do
