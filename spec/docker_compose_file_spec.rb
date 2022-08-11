@@ -10,7 +10,7 @@ describe SimpleReviewApp::DockerComposeFile do
   let(:path) { File.join(dir, filename) }
   let(:host) { '39.40.41.42' }
   let(:app_name) { 'vanilla' }
-  let(:docker_compose_file) { SimpleReviewApp::DockerComposeFile.new(path: path, app_name: app_name, host: host) }
+  let(:docker_compose_file) { SimpleReviewApp::DockerComposeFile.new(path:, app_name:, host:) }
 
   before do
     Dir.chdir(dir) do

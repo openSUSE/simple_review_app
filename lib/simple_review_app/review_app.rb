@@ -132,8 +132,8 @@ class SimpleReviewApp
       @docker_compose_file ||= DockerComposeFile.new(
         path: File.join(project_directory, docker_compose_file_name),
         app_name: name,
-        host: host,
-        logger: logger
+        host:,
+        logger:
       )
     end
 

@@ -19,7 +19,7 @@ describe SimpleReviewApp::PullRequestCollection, vcr: true do
         organization: 'ChrisBr',
         labels: label,
         client: Octokit::Client.new,
-        logger: logger
+        logger:
       ).all
     end
     let(:pr_label) { subject.first.content.labels.first.name }
