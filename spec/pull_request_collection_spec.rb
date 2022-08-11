@@ -22,6 +22,7 @@ describe SimpleReviewApp::PullRequestCollection, vcr: true do
         logger: logger
       ).all
     end
+
     let(:pr_label) { subject.first.content.labels.first.name }
 
     it { expect(subject.length).to eq(1) }

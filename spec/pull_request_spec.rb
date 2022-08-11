@@ -5,20 +5,20 @@ require 'octokit'
 require 'simple_review_app/pull_request'
 
 describe SimpleReviewApp::PullRequest, vcr: true do
-  let(:client) { Octokit::Client.new }
-  let(:content) { client.pull_request('ChrisBr/open-build-service', 8) }
-  let(:logger) { double }
-
-  before do
-    allow(logger).to receive(:info)
-  end
-
   subject do
     SimpleReviewApp::PullRequest.new(
       content: content,
       full_repository_name: 'ChrisBr/open-build-service',
       logger: logger
     )
+  end
+
+  let(:client) { Octokit::Client.new }
+  let(:content) { client.pull_request('ChrisBr/open-build-service', 8) }
+  let(:logger) { double }
+
+  before do
+    allow(logger).to receive(:info)
   end
 
   describe '#number' do
