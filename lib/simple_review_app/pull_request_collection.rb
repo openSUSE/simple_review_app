@@ -25,14 +25,14 @@ class SimpleReviewApp
       pull_request_numbers.map do |pull_request_number|
         PullRequest.new(
           content: client.pull_request(full_repository_name, pull_request_number.number),
-          full_repository_name: full_repository_name,
-          logger: logger
+          full_repository_name:,
+          logger:
         )
       end
     end
 
     def pull_request_numbers
-      client.list_issues(full_repository_name, labels: labels).find_all(&:pull_request)
+      client.list_issues(full_repository_name, labels:).find_all(&:pull_request)
     end
 
     def full_repository_name

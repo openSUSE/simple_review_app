@@ -70,16 +70,16 @@ class SimpleReviewApp
   # rubocop:disable Metrics/MethodLength
   def deploy_review_app(pull_request)
     running_apps << ReviewApp.new(
-      pull_request: pull_request,
+      pull_request:,
       project_name: github_repository,
-      host: host,
-      client: client,
-      data_directory: data_directory,
-      prepare_block: prepare_block,
-      overlay_files_directory: overlay_files_directory,
-      docker_compose_file_name: docker_compose_file_name,
-      disable_comments: disable_comments,
-      logger: logger
+      host:,
+      client:,
+      data_directory:,
+      prepare_block:,
+      overlay_files_directory:,
+      docker_compose_file_name:,
+      disable_comments:,
+      logger:
     ).deploy
     # rubocop:enable Metrics/MethodLength
   end
@@ -89,9 +89,9 @@ class SimpleReviewApp
       ReviewApp.new(
         name: dir,
         project_name: github_repository,
-        data_directory: data_directory,
-        docker_compose_file_name: docker_compose_file_name,
-        logger: logger
+        data_directory:,
+        docker_compose_file_name:,
+        logger:
       ).destroy
     end
   end
@@ -122,8 +122,8 @@ class SimpleReviewApp
       organization: github_organization,
       repository: github_repository,
       labels: github_labels,
-      client: client,
-      logger: logger
+      client:,
+      logger:
     ).all
     logger.info("Found #{result.count} open pull requests.")
     result

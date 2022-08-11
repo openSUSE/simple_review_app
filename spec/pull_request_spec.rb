@@ -15,9 +15,9 @@ describe SimpleReviewApp::PullRequest, vcr: true do
 
   subject do
     SimpleReviewApp::PullRequest.new(
-      content: content,
+      content:,
       full_repository_name: 'ChrisBr/open-build-service',
-      logger: logger
+      logger:
     )
   end
 
