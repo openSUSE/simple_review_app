@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
 
   s.add_runtime_dependency 'activemodel', '>= 5.1', '< 8.0'
-  s.add_runtime_dependency 'liquid', '~> 4.0'
+  s.add_runtime_dependency 'liquid', '>= 4', '< 6'
   s.add_runtime_dependency 'octokit', '>= 4', '< 6'
   s.add_runtime_dependency 'rake', '>= 12.3', '< 14.0'
   s.add_runtime_dependency 'zaru', '~> 0.2'
