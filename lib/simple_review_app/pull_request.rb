@@ -12,15 +12,6 @@ class SimpleReviewApp
     attr_accessor :content, :full_repository_name
     attr_writer :logger
 
-    def update(directory)
-      if changed?(directory)
-        logger.info('Pull request changed, updating...')
-        fetch_and_reset(directory)
-      else
-        logger.info('Pull request did not change, continue...')
-      end
-    end
-
     def clone(directory)
       FileUtils.mkdir_p(directory) unless File.exist?(directory)
       Dir.chdir(directory) do
@@ -40,8 +31,6 @@ class SimpleReviewApp
       content.head.ref
     end
 
-    private
-
     def fetch_and_reset(directory)
       Dir.chdir(File.join(directory, project_name)) do
         capture2e_with_logs('git fetch --all')
@@ -53,6 +42,8 @@ class SimpleReviewApp
     def changed?(directory)
       head_sha != cloned_sha(directory)
     end
+
+    private
 
     def project_name
       content.head.repo.name
