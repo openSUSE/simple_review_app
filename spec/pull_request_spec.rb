@@ -53,7 +53,7 @@ describe SimpleReviewApp::PullRequest, vcr: true do
     end
   end
 
-  describe '#update' do
+  describe '#fetch_and_reset' do
     let(:testdir) { 'spec/tmp/pull_request_spec' }
     let(:project_dir) { File.join(testdir, 'open-build-service') }
 
@@ -70,14 +70,7 @@ describe SimpleReviewApp::PullRequest, vcr: true do
       expect(subject).to receive(:capture2e_with_logs).with('git fetch --all')
       expect(subject).to receive(:capture2e_with_logs).with('git reset origin/bar --hard')
       allow(subject).to receive(:cloned_sha).and_return('different')
-      subject.update(testdir)
-    end
-
-    it 'does not update the pull request directory' do
-      expect(subject).not_to receive(:capture2e_with_logs).with('git fetch --all')
-      expect(subject).not_to receive(:capture2e_with_logs).with('git reset origin/bar --hard')
-      allow(subject).to receive(:cloned_sha).and_return(subject.content.head.sha)
-      subject.update(testdir)
+      subject.fetch_and_reset(testdir)
     end
   end
 end

@@ -66,10 +66,14 @@ class SimpleReviewApp
     end
 
     def update
-      pull_request.update(directory)
-
+      if pull_request.changed?(directory)
+        logger.info('Pull request changed, updating...')
+        pull_request.fetch_and_reset(directory)
+        stop_app
+      else
+        logger.info('Pull request did not change, continue...')
+      end
       provision
-      stop_app
       start_app
     end
 
