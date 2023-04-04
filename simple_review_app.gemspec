@@ -17,5 +17,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'liquid', '>= 4', '< 6'
   s.add_runtime_dependency 'octokit', '>= 4', '< 7'
   s.add_runtime_dependency 'rake', '>= 12.3', '< 14.0'
-  s.add_runtime_dependency 'zaru', '~> 0.2'
+  s.add_runtime_dependency 'zaru', '>= 0.2', '< 2.0'
 end

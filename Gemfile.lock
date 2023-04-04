@@ -6,7 +6,7 @@ PATH
       liquid (>= 4, < 6)
       octokit (>= 4, < 7)
       rake (>= 12.3, < 14.0)
-      zaru (~> 0.2)
+      zaru (>= 0.2, < 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -91,7 +91,7 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    zaru (0.3.0)
+    zaru (1.0.0)
 
 PLATFORMS
   ruby
