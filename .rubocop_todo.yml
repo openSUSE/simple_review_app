@@ -91,15 +91,6 @@ RSpec/LeakyConstantDeclaration:
 RSpec/MessageSpies:
   EnforcedStyle: receive
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: hash, symbol
-RSpec/MetadataStyle:
-  Exclude:
-    - 'spec/pull_request_collection_spec.rb'
-    - 'spec/pull_request_spec.rb'
-
 # Offense count: 1
 RSpec/MultipleExpectations:
   Max: 2

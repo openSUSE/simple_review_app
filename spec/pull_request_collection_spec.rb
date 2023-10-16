@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'octokit'
 require 'simple_review_app/pull_request_collection'
 
-describe SimpleReviewApp::PullRequestCollection, vcr: true do
+describe SimpleReviewApp::PullRequestCollection, :vcr do
   let(:logger) { double }
   let(:label) { 'review-lab' }
 
