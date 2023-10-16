@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'octokit'
 require 'simple_review_app/pull_request'
 
-describe SimpleReviewApp::PullRequest, vcr: true do
+describe SimpleReviewApp::PullRequest, :vcr do
   subject do
     SimpleReviewApp::PullRequest.new(
       content:,

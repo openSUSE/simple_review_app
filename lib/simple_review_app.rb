@@ -102,6 +102,7 @@ class SimpleReviewApp
 
   def create_data_directory
     return if File.exist?(data_directory)
+
     msg = "Data directory #{data_directory} does not exist, creating it."
     logger.info(msg)
     FileUtils.mkdir_p(data_directory)
@@ -135,11 +136,12 @@ class SimpleReviewApp
 
   def client
     return @client if @client.present?
+
     if credentials?
       logger.info "Authenticating to GitHub with username #{github_username}."
       @client = Octokit::Client.new(login: github_username, password: github_password)
     elsif github_access_token.present?
-      logger.info "Authenticating to GitHub with access token."
+      logger.info 'Authenticating to GitHub with access token.'
       @client = Octokit::Client.new(access_token: github_access_token)
     else
       logger.info 'Using github API as anonymous user.'
