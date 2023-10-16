@@ -135,12 +135,6 @@ RSpec/SubjectStub:
     - 'spec/pull_request_spec.rb'
 
 # Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Style/FileWrite:
-  Exclude:
-    - 'lib/simple_review_app/docker_compose_file.rb'
-
-# Offense count: 1
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: respond_to_missing?
 Style/OptionalBooleanParameter:

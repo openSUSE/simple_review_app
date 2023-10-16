@@ -18,9 +18,7 @@ class SimpleReviewApp
 
     def update
       @content = template.render(attributes)
-      File.open(path, 'w') do |f|
-        f.write(@content)
-      end
+      File.write(path, @content)
       self
     end
 
