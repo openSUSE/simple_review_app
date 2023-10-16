@@ -136,12 +136,6 @@ RSpec/SubjectStub:
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
-Style/ExplicitBlockArgument:
-  Exclude:
-    - 'lib/simple_review_app/review_app.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
 Style/FileWrite:
   Exclude:
     - 'lib/simple_review_app/docker_compose_file.rb'

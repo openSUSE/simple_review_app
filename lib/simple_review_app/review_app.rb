@@ -153,10 +153,8 @@ class SimpleReviewApp
       File.join(directory, project_name)
     end
 
-    def do_in_project_directory
-      Dir.chdir(project_directory) do
-        yield
-      end
+    def do_in_project_directory(&)
+      Dir.chdir(project_directory, &)
     end
   end
 end
