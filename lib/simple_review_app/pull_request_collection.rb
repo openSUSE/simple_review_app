@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'octokit.rb'
+require 'octokit'
 require 'active_model'
 require_relative 'logger'
 require_relative 'pull_request'
