@@ -13,12 +13,6 @@ Gemspec/RequiredRubyVersion:
   Exclude:
     - 'simple_review_app.gemspec'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'lib/simple_review_app.rb'
-
 # Offense count: 1
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: enums
