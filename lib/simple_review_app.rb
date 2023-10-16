@@ -139,7 +139,7 @@ class SimpleReviewApp
       logger.info "Authenticating to GitHub with username #{github_username}."
       @client = Octokit::Client.new(login: github_username, password: github_password)
     elsif github_access_token.present?
-      logger.info "Authenticating to GitHub with access token."
+      logger.info 'Authenticating to GitHub with access token.'
       @client = Octokit::Client.new(access_token: github_access_token)
     else
       logger.info 'Using github API as anonymous user.'

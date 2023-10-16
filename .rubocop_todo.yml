@@ -140,11 +140,3 @@ RSpec/SubjectStub:
 Style/OptionalBooleanParameter:
   Exclude:
     - 'lib/simple_review_app/review_app.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Exclude:
-    - 'lib/simple_review_app.rb'
