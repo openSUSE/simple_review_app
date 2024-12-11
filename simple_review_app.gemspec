@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/ChrisBr/simple_review_app'
   s.license = 'MIT'
 
-  s.add_dependency 'activemodel', '>= 5.1', '< 8.0'
+  s.add_dependency 'activemodel', '>= 5.1', '< 9.0'
   s.add_dependency 'liquid', '>= 4', '< 6'
   s.add_dependency 'octokit', '>= 4', '< 10'
   s.add_dependency 'rake', '>= 12.3', '< 14.0'
