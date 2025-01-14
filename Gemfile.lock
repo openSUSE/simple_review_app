@@ -53,6 +53,7 @@ GEM
       bigdecimal
       strscan (>= 3.1.1)
     logger (1.6.5)
+    lru_redux (1.1.0)
     minitest (5.25.4)
     net-http (0.6.0)
       uri
@@ -122,6 +123,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  lru_redux
   rspec
   rspec_junit_formatter
   rubocop
