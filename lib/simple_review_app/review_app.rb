@@ -16,6 +16,7 @@ class SimpleReviewApp
     extend ActiveModel::Callbacks
     include Logger
     include Utils
+
     attr_accessor :pull_request,
                   :project_name,
                   :client,

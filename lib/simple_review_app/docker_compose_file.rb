@@ -9,6 +9,7 @@ class SimpleReviewApp
   class DockerComposeFile
     include ActiveModel::Model
     include Logger
+
     attr_accessor :path, :app_name, :host
     attr_writer :content, :logger
 

@@ -7,6 +7,7 @@ class SimpleReviewApp
   class PullRequestComment
     include ActiveModel::Model
     include Logger
+
     attr_accessor :client, :pull_request, :body
     attr_writer :logger
 
