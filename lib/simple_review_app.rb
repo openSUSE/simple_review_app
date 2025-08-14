@@ -13,6 +13,7 @@ require_relative 'simple_review_app/logger'
 class SimpleReviewApp
   include ActiveModel::Model
   include Logger
+
   attr_accessor :running_apps,
                 :github_access_token,
                 :github_username,

@@ -9,6 +9,7 @@ class SimpleReviewApp
     include ActiveModel::Model
     include Logger
     include Utils
+
     attr_accessor :content, :full_repository_name
     attr_writer :logger
 

@@ -9,6 +9,7 @@ class SimpleReviewApp
   class PullRequestCollection
     include ActiveModel::Model
     include Logger
+
     attr_accessor :repository, :organization, :labels, :client
     attr_writer :logger
 
