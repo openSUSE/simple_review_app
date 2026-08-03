@@ -153,7 +153,7 @@ class SimpleReviewApp
   def check_dependencies
     _stdout_and_stderr_str, status = Open3.capture2e('which docker')
     abort('Please install docker first') unless status.success?
-    _stdout_and_stderr_str, status = Open3.capture2e('which docker-compose')
+    _stdout_and_stderr_str, status = Open3.capture2e('docker compose')
     abort('Please install docker-compose first') unless status.success?
   end
 end

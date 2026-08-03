@@ -100,8 +100,8 @@ class SimpleReviewApp
     def start_app
       logger.info "Starting review app '#{name}'."
       do_in_project_directory do
-        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} pull")
-        capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} up --build -d")
+        capture2e_with_logs("docker compose -f #{docker_compose_file_name} pull")
+        capture2e_with_logs("docker compose -f #{docker_compose_file_name} -p #{name} up --build -d")
       end
       logger.info "Successfully started review app '#{name}'."
     end
@@ -110,9 +110,9 @@ class SimpleReviewApp
       logger.info "Stopping review app '#{name}'."
       do_in_project_directory do
         if destroy
-          capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} down -v")
+          capture2e_with_logs("docker compose -f #{docker_compose_file_name} -p #{name} down -v")
         else
-          capture2e_with_logs("docker-compose -f #{docker_compose_file_name} -p #{name} stop")
+          capture2e_with_logs("docker compose -f #{docker_compose_file_name} -p #{name} stop")
         end
       end
       logger.info "Successfully stopped review app '#{name}'."
