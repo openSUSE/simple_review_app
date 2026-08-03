@@ -85,7 +85,7 @@ end
 SimpleReviewApp.run
 ```
 
-The simple_review_app will loop over all open pull requests, checks out the pull requests with the specified label and run a docker-compose up.
+The simple_review_app will loop over all open pull requests, checks out the pull requests with the specified label and run a `docker compose up`.
 
 To make it possible to run several apps on the same machine, the awesome [Traefik proxy](https://traefik.io/) will come to the rescue.
 To make Traefik happy, you need to adapt your docker-compose file a little bit.
