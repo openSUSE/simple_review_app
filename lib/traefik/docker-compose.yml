@@ -1,10 +1,16 @@
-version: '2'
 services:
-  reverse-proxy:
-    image: traefik:v1.7
-    command: --api --docker #Enables the web UI and tells Træfik to listen to docker
+  traefik:
+    image: traefik:v2.11.50
+    restart: always
+    command:
+      - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.docker.exposedbydefault=false"
     ports:
-      - "80:80"     #The HTTP port
-      - "8080:8080" #The Web UI (enabled by --api)
+      - 80:80
+      - 443:443
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      # expose docker socket to be able to listen to it
+      - /var/run/docker.sock:/var/run/docker.sock:z
+
