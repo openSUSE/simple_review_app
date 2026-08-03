@@ -18,5 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'octokit', '>= 4', '< 11'
   s.add_dependency 'rake', '>= 12.3', '< 14.0'
   s.add_dependency 'zaru', '>= 0.2', '< 2.0'
+  s.add_dependency 'mutex_m' # required by active_support
+
   s.metadata['rubygems_mfa_required'] = 'true'
 end
