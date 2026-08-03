@@ -4,6 +4,7 @@ PATH
     simple_review_app (0.0.0)
       activemodel (>= 5.1, < 9.0)
       liquid (>= 4, < 6)
+      mutex_m
       octokit (>= 4, < 11)
       rake (>= 12.3, < 14.0)
       zaru (>= 0.2, < 2.0)
@@ -56,6 +57,7 @@ GEM
     logger (1.7.0)
     lru_redux (1.1.0)
     minitest (5.27.0)
+    mutex_m (0.3.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
     octokit (10.0.0)
@@ -138,4 +140,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.3.7
+  4.0.16
