@@ -1,15 +1,13 @@
 services:
   traefik:
-    image: traefik:v2.11.50
+    image: traefik:v2.11
     restart: always
     command:
       - "--providers.docker"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
       - "--providers.docker.exposedbydefault=false"
     ports:
       - 80:80
-      - 443:443
     volumes:
       # expose docker socket to be able to listen to it
       - /var/run/docker.sock:/var/run/docker.sock:z
