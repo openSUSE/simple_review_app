@@ -32,7 +32,7 @@ describe SimpleReviewApp::DockerComposeFile do
     end
 
     it 'does update set the traefik_frontend_rule' do
-      expect(subject.update.content).to include("Host:#{host}; PathPrefix:/#{app_name}")
+      expect(subject.update.content).to include("Host(`#{host}`) && PathPrefix(`/#{app_name}`)")
     end
   end
 end

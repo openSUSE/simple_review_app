@@ -105,16 +105,20 @@ services:
     - ".:/obs"
     environment:
     - RAILS_RELATIVE_URL_ROOT={{ root_url }}
+    expose:
+    - 3000
     labels:
-      traefik.frontend.rule: {{ traefik_frontend_rule }}
+      traefik.enable: 'true'
+      traefik.http.routers.{{ app_name }}.rule: {{ traefik_frontend_rule }}
+      traefik.http.routers.{{ app_name }}.entrypoints: web
       traefik.docker.network: traefik_default
       traefik.port: '3000'
     depends_on:
     - db
 networks:
   traefik:
-    external:
-      name: traefik_default
+    external: true
+    name: traefik_default
 ```
 
 In this docker-compose file, we have two containers running: the database and the frontend app.

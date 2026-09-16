@@ -27,6 +27,7 @@ class SimpleReviewApp
 
     def attributes
       {
+        'app_name' => app_name,
         'root_url' => root_url,
         'traefik_frontend_rule' => traefik_frontend_rule
       }
@@ -41,7 +42,7 @@ class SimpleReviewApp
     end
 
     def traefik_frontend_rule
-      "Host:#{host}; PathPrefix:/#{app_name}"
+      "Host(`#{host}`) && PathPrefix(`/#{app_name}`)"
     end
   end
 end
