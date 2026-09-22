@@ -9,7 +9,7 @@ require_relative 'docker_compose_file'
 require_relative 'utils'
 require_relative 'pull_request_comment'
 
-# rubocop:disable Metrics/ClassLength
+# rubocop:disable-next Metrics/ClassLength
 class SimpleReviewApp
   class ReviewApp
     include ActiveModel::Model
@@ -159,4 +159,3 @@ class SimpleReviewApp
     end
   end
 end
-# rubocop:enable Metrics/ClassLength
