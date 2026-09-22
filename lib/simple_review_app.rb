@@ -9,7 +9,7 @@ require_relative 'simple_review_app/pull_request_collection'
 require_relative 'simple_review_app/traefik'
 require_relative 'simple_review_app/logger'
 
-# rubocop:disable Metrics/ClassLength
+# rubocop:disable-next Metrics/ClassLength
 class SimpleReviewApp
   include ActiveModel::Model
   include Logger
@@ -68,7 +68,7 @@ class SimpleReviewApp
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable-next Metrics/MethodLength
   def deploy_review_app(pull_request)
     running_apps << ReviewApp.new(
       pull_request:,
@@ -82,7 +82,6 @@ class SimpleReviewApp
       disable_comments:,
       logger:
     ).deploy
-    # rubocop:enable Metrics/MethodLength
   end
 
   def destroy_review_apps
@@ -157,4 +156,3 @@ class SimpleReviewApp
     abort('Please install docker-compose first') unless status.success?
   end
 end
-# rubocop:enable Metrics/ClassLength
